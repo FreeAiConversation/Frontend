@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Paragraph Generator — FREE AI CONVERSION</title>
+<meta name="description" content="Generate paragraphs and articles using AI. Control topic, tone, and length. Powered by Gemini AI. Free.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>✍️ Paragraph Generator</h1>
+    <p>Generate paragraphs from any topic using AI. Control tone, length & style.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="controls-row">
+      <div class="control-group" style="flex:3">
+        <label class="control-label">Topic / Prompt</label>
+        <input type="text" class="control-input" id="topic" placeholder="e.g. Benefits of morning exercise, AI in education...">
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <div class="control-group">
+        <label class="control-label">Tone</label>
+        <select class="control-select" id="tone">
+          <option value="professional">Professional</option>
+          <option value="casual">Casual</option>
+          <option value="academic">Academic</option>
+          <option value="creative">Creative</option>
+          <option value="persuasive">Persuasive</option>
+          <option value="humorous">Humorous</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Length</label>
+        <select class="control-select" id="length">
+          <option value="short (2-3 sentences)">Short</option>
+          <option value="medium (4-6 sentences)" selected>Medium</option>
+          <option value="long (7-10 sentences)">Long</option>
+          <option value="very long (2-3 paragraphs)">Very Long</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Count</label>
+        <select class="control-select" id="count">
+          <option value="1" selected>1 Paragraph</option>
+          <option value="2">2 Paragraphs</option>
+          <option value="3">3 Paragraphs</option>
+          <option value="5">5 Paragraphs</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="controls-row">
+      <button class="btn btn-primary btn-block" id="gen-btn" onclick="generateParagraph()">✨ Generate with AI</button>
+    </div>
+
+    <div id="loading" style="display:none;text-align:center;padding:var(--space-xl);color:var(--text-muted);">
+      <div style="font-size:28px;margin-bottom:var(--space-sm);animation:pulse 1s ease-in-out infinite;">🤖</div>
+      <div>Generating with Gemini AI...</div>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);">
+        <span style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;font-weight:600;">Generated Content</span>
+        <button class="btn btn-secondary" onclick="copyResult()" style="padding:6px 14px;font-size:11px;">📋 Copy</button>
+      </div>
+      <div id="output" style="font-size:14px;line-height:1.8;color:var(--text-secondary);white-space:pre-wrap;"></div>
+    </div>
+
+    <!-- API Key -->
+    <div style="margin-top:var(--space-xl);border-top:1px solid var(--accent-border);padding-top:var(--space-lg);">
+      <div class="controls-row">
+        <div class="control-group" style="flex:3">
+          <label class="control-label">Gemini API Key</label>
+          <input type="password" class="control-input" id="api-key" placeholder="Paste your Gemini API key here...">
+        </div>
+        <button class="btn btn-secondary" onclick="saveKey()" style="align-self:flex-end;">Save Key</button>
+      </div>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:var(--space-sm);">Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--text-muted);text-decoration:underline;">aistudio.google.com</a> — stored in your browser only.</p>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const API_KEY_STORE = 'freeai_gemini_key';
+const DEFAULT_KEY = 'AIzaSyCrBR8QIYZDqRy-86rUAqmFadT9aDmehk0';
+let apiKey = localStorage.getItem(API_KEY_STORE) || DEFAULT_KEY;
+document.getElementById('api-key').value = apiKey === DEFAULT_KEY ? '' : apiKey;
+
+function saveKey() {
+  const k = document.getElementById('api-key').value.trim();
+  if (k) { apiKey = k; localStorage.setItem(API_KEY_STORE, k); showToast('API key saved!'); }
+}
+
+async function generateParagraph() {
+  const topic = document.getElementById('topic').value.trim();
+  if (!topic) { showToast('Enter a topic first!'); return; }
+
+  const tone = document.getElementById('tone').value;
+  const length = document.getElementById('length').value;
+  const count = document.getElementById('count').value;
+
+  const prompt = `Write ${count} paragraph(s) about: "${topic}". 
+Tone: ${tone}. Length: ${length}. 
+Rules: Write naturally like a human. No markdown formatting. No headers or bullet points. Just clean paragraphs separated by blank lines.`;
+
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('result-box').classList.remove('show');
+  document.getElementById('gen-btn').disabled = true;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        contents: [{role:'user', parts:[{text: prompt}]}],
+        generationConfig: {temperature: 0.85, maxOutputTokens: 1024}
+      })
+    });
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Error generating content.';
+    document.getElementById('output').textContent = text;
+    document.getElementById('result-box').classList.add('show');
+    showToast('Generated!');
+  } catch (e) {
+    document.getElementById('output').textContent = '❌ Error: ' + e.message;
+    document.getElementById('result-box').classList.add('show');
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('gen-btn').disabled = false;
+}
+
+function copyResult() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent);
+  showToast('Copied!');
+}
+
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+</script>
+</body>
+</html>

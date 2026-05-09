@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Converter — FREE AI CONVERSION</title>
+<meta name="description" content="Convert images between PNG, JPG, WEBP, BMP formats instantly. Free, no upload to servers, runs in your browser.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav">
+    <a href="../index.html#tools" class="nav-link">All Tools</a>
+  </nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>🖼️ Image Converter</h1>
+    <p>Convert images between PNG, JPG, WEBP & BMP — processed entirely in your browser.</p>
+  </div>
+
+  <div class="tool-container">
+    <div class="tool-body">
+
+      <div class="upload-zone" id="upload-zone">
+        <div class="upload-icon">📁</div>
+        <div class="upload-title">Drop an image here or click to browse</div>
+        <div class="upload-hint">Supports PNG, JPG, WEBP, BMP, GIF — Max 20MB</div>
+        <input type="file" id="file-input" accept="image/*">
+      </div>
+
+      <div class="preview-area" id="preview-area">
+        <div class="preview-img-wrap">
+          <img id="preview-img" alt="Preview">
+        </div>
+        <div class="preview-info">
+          <span id="file-info">—</span>
+          <span id="file-size">—</span>
+        </div>
+
+        <div class="controls-row">
+          <div class="control-group">
+            <label class="control-label">Convert To</label>
+            <select class="control-select" id="format-select">
+              <option value="image/png">PNG</option>
+              <option value="image/jpeg">JPG</option>
+              <option value="image/webp">WEBP</option>
+              <option value="image/bmp">BMP</option>
+            </select>
+          </div>
+          <div class="control-group" id="quality-group">
+            <label class="control-label">Quality</label>
+            <div class="range-wrap">
+              <input type="range" class="range-slider" id="quality" min="10" max="100" value="90">
+              <span class="range-value" id="quality-val">90%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls-row">
+          <button class="btn btn-primary btn-block" id="convert-btn" onclick="convertImage()">⚡ Convert & Download</button>
+        </div>
+
+        <div class="result-box" id="result-box">
+          <p id="result-text" style="color:var(--success);font-weight:600;"></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast">Done!</div>
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+const fileInput = document.getElementById('file-input');
+const previewImg = document.getElementById('preview-img');
+const previewArea = document.getElementById('preview-area');
+const uploadZone = document.getElementById('upload-zone');
+const formatSelect = document.getElementById('format-select');
+const qualitySlider = document.getElementById('quality');
+const qualityVal = document.getElementById('quality-val');
+const qualityGroup = document.getElementById('quality-group');
+
+let currentFile = null;
+
+// Drag and drop
+uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', (e) => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+
+qualitySlider.addEventListener('input', () => {
+  qualityVal.textContent = qualitySlider.value + '%';
+});
+
+formatSelect.addEventListener('change', () => {
+  const fmt = formatSelect.value;
+  qualityGroup.style.display = (fmt === 'image/png' || fmt === 'image/bmp') ? 'none' : 'flex';
+});
+
+function handleFile(file) {
+  if (!file.type.startsWith('image/')) { alert('Please select an image file.'); return; }
+  if (file.size > 20 * 1024 * 1024) { alert('File too large. Max 20MB.'); return; }
+
+  currentFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    previewImg.src = e.target.result;
+    previewArea.classList.add('show');
+    uploadZone.style.display = 'none';
+    document.getElementById('file-info').textContent = file.name + ' (' + file.type.split('/')[1].toUpperCase() + ')';
+    document.getElementById('file-size').textContent = formatSize(file.size);
+  };
+  reader.readAsDataURL(file);
+}
+
+function convertImage() {
+  if (!currentFile) return;
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const img = new Image();
+
+  img.onload = () => {
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0);
+
+    const format = formatSelect.value;
+    const quality = parseInt(qualitySlider.value) / 100;
+    const ext = format.split('/')[1] === 'jpeg' ? 'jpg' : format.split('/')[1];
+
+    canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const baseName = currentFile.name.replace(/\.[^.]+$/, '');
+      a.href = url;
+      a.download = baseName + '.' + ext;
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const resultBox = document.getElementById('result-box');
+      resultBox.classList.add('show');
+      document.getElementById('result-text').textContent =
+        `✅ Converted! ${formatSize(currentFile.size)} → ${formatSize(blob.size)} (${ext.toUpperCase()})`;
+
+      showToast('Image converted & downloaded!');
+    }, format, quality);
+  };
+  img.src = previewImg.src;
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(2) + ' MB';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>

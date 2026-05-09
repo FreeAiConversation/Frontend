@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Tools — FREE AI CONVERSION</title>
+<meta name="description" content="Merge multiple PDFs, convert images to PDF, and download — all free, runs in your browser using pdf-lib.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>📄 PDF Tools</h1>
+    <p>Merge multiple PDFs or convert images to PDF — processed in your browser.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="controls-row" style="margin-bottom:var(--space-lg);">
+      <button class="btn btn-primary tab-btn active" onclick="switchTab('merge',this)" id="tab-merge">Merge PDFs</button>
+      <button class="btn btn-secondary tab-btn" onclick="switchTab('img2pdf',this)" id="tab-img">Images → PDF</button>
+    </div>
+
+    <!-- MERGE TAB -->
+    <div id="panel-merge">
+      <div class="upload-zone" id="merge-zone">
+        <div class="upload-icon">📄</div>
+        <div class="upload-title">Drop PDF files here or click to browse</div>
+        <div class="upload-hint">Select multiple PDFs — they will be merged in order</div>
+        <input type="file" id="merge-input" accept=".pdf" multiple>
+      </div>
+      <div id="merge-list" style="margin-top:var(--space-md);"></div>
+      <div id="merge-actions" style="display:none;margin-top:var(--space-lg);">
+        <button class="btn btn-primary btn-block" onclick="mergePDFs()">📎 Merge All PDFs</button>
+      </div>
+    </div>
+
+    <!-- IMG TO PDF TAB -->
+    <div id="panel-img2pdf" style="display:none;">
+      <div class="upload-zone" id="img-zone">
+        <div class="upload-icon">🖼️</div>
+        <div class="upload-title">Drop images here or click to browse</div>
+        <div class="upload-hint">Select multiple images — each becomes a page</div>
+        <input type="file" id="img-input" accept="image/*" multiple>
+      </div>
+      <div id="img-list" style="margin-top:var(--space-md);"></div>
+      <div id="img-actions" style="display:none;margin-top:var(--space-lg);">
+        <button class="btn btn-primary btn-block" onclick="imgsToPDF()">📄 Convert to PDF</button>
+      </div>
+    </div>
+
+    <div id="loading" style="display:none;text-align:center;padding:var(--space-xl);color:var(--text-muted);">
+      <div style="font-size:28px;margin-bottom:var(--space-sm);animation:pulse 1s ease-in-out infinite;">⏳</div>
+      <div id="loading-text">Processing...</div>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+let mergeFiles = [], imgFiles = [];
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('active'); b.className = b.className.replace('btn-primary','btn-secondary'); });
+  btn.classList.add('active'); btn.className = btn.className.replace('btn-secondary','btn-primary');
+  document.getElementById('panel-merge').style.display = tab === 'merge' ? 'block' : 'none';
+  document.getElementById('panel-img2pdf').style.display = tab === 'img2pdf' ? 'block' : 'none';
+}
+
+// Merge PDFs
+document.getElementById('merge-input').addEventListener('change', e => {
+  mergeFiles = Array.from(e.target.files);
+  const list = document.getElementById('merge-list');
+  list.innerHTML = mergeFiles.map((f,i) => `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-input);border:1px solid var(--accent-border);border-radius:var(--radius-md);margin-bottom:6px;font-size:13px;">
+    <span>📄 ${f.name}</span><span style="color:var(--text-dim);">${(f.size/1024).toFixed(1)} KB</span></div>`).join('');
+  document.getElementById('merge-actions').style.display = mergeFiles.length > 1 ? 'block' : 'none';
+  if (mergeFiles.length < 2) showToast('Select at least 2 PDFs to merge');
+});
+
+async function mergePDFs() {
+  if (mergeFiles.length < 2) return;
+  showLoading('Merging PDFs...');
+  try {
+    const merged = await PDFLib.PDFDocument.create();
+    for (const file of mergeFiles) {
+      const bytes = await file.arrayBuffer();
+      const doc = await PDFLib.PDFDocument.load(bytes);
+      const pages = await merged.copyPages(doc, doc.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    const pdfBytes = await merged.save();
+    downloadBlob(new Blob([pdfBytes], {type:'application/pdf'}), 'merged.pdf');
+    showToast('PDFs merged & downloaded!');
+  } catch(e) { showToast('Error: ' + e.message); }
+  hideLoading();
+}
+
+// Images to PDF
+document.getElementById('img-input').addEventListener('change', e => {
+  imgFiles = Array.from(e.target.files);
+  const list = document.getElementById('img-list');
+  list.innerHTML = imgFiles.map(f => `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg-input);border:1px solid var(--accent-border);border-radius:var(--radius-md);margin-bottom:6px;font-size:13px;">
+    <span>🖼️ ${f.name}</span><span style="color:var(--text-dim);">${(f.size/1024).toFixed(1)} KB</span></div>`).join('');
+  document.getElementById('img-actions').style.display = imgFiles.length > 0 ? 'block' : 'none';
+});
+
+async function imgsToPDF() {
+  if (imgFiles.length === 0) return;
+  showLoading('Converting images to PDF...');
+  try {
+    const doc = await PDFLib.PDFDocument.create();
+    for (const file of imgFiles) {
+      const bytes = await file.arrayBuffer();
+      let img;
+      if (file.type === 'image/png') img = await doc.embedPng(bytes);
+      else img = await doc.embedJpg(bytes);
+      const page = doc.addPage([img.width, img.height]);
+      page.drawImage(img, {x:0, y:0, width:img.width, height:img.height});
+    }
+    const pdfBytes = await doc.save();
+    downloadBlob(new Blob([pdfBytes], {type:'application/pdf'}), 'images.pdf');
+    showToast('PDF created & downloaded!');
+  } catch(e) { showToast('Error: ' + e.message + '. Try JPG/PNG images.'); }
+  hideLoading();
+}
+
+function downloadBlob(blob, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+}
+
+function showLoading(t) { document.getElementById('loading').style.display='block'; document.getElementById('loading-text').textContent=t; }
+function hideLoading() { document.getElementById('loading').style.display='none'; }
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+</script>
+</body>
+</html>

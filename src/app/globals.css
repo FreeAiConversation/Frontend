@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border;
+  }
+  
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  body {
+    @apply bg-bg text-text-primary min-h-screen;
+    font-family: 'Inter', -apple-system, sans-serif;
+    line-height: 1.6;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-[5px];
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-[3px];
+  }
+}
+
+@layer utilities {
+  /* Animated gradient border for category cards */
+  .category-card-gradient {
+    @apply bg-bg-card relative;
+    border-radius: 0.5rem; /* 8px - matches rounded-lg */
+  }
+  
+  .category-card-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 0.5rem; /* 8px - matches rounded-lg */
+    padding: 1px;
+    background: conic-gradient(
+      from var(--border-angle),
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.08) 80%,
+      rgba(100, 150, 255, 0.6) 86%,
+      rgba(150, 180, 255, 0.8) 90%,
+      rgba(100, 150, 255, 0.6) 94%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: border-rotate 4s linear infinite;
+    pointer-events: none;
+  }
+  
+  .category-card-gradient:hover {
+    @apply bg-bg-hover;
+  }
+
+  /* Corner brackets for CTA section */
+  .corner-bracket {
+    @apply absolute w-5 h-5 border border-white/20;
+  }
+  
+  .corner-bracket.top-left {
+    @apply top-10 left-10 border-r-0 border-b-0;
+  }
+  
+  .corner-bracket.top-right {
+    @apply top-10 right-10 border-l-0 border-b-0;
+  }
+  
+  .corner-bracket.bottom-left {
+    @apply bottom-10 left-10 border-r-0 border-t-0;
+  }
+  
+  .corner-bracket.bottom-right {
+    @apply bottom-10 right-10 border-l-0 border-t-0;
+  }
+
+  /* Hero title style for CTA */
+  .hero-title {
+    @apply font-black tracking-tighter leading-[0.85];
+  }
+
+  /* Text outline effect */
+  .text-outline-grey {
+    @apply text-[#333333];
+  }
+
+  /* Text stroke/outline effect for white outline */
+  .text-outline-white {
+    color: transparent;
+    -webkit-text-stroke: 2px white;
+    text-stroke: 2px white;
+  }
+}
+
+/* Animated gradient border */
+@keyframes border-rotate {
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}

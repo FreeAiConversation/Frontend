@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free AI Conversion — Premium Tools</title>
+<meta name="description" content="Free AI-powered tools for PDF, images, code, writing & more. No login required. Unlimited usage. Convert anything, pay nothing.">
+<link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="header-logo">
+    <img src="logo.png" alt="Free AI Conversion Logo">
+  </a>
+  <nav class="header-nav">
+    <a href="#categories" class="nav-pill">PDF</a>
+    <a href="#categories" class="nav-pill">Image</a>
+    <a href="#categories" class="nav-pill">Write</a>
+    <a href="#categories" class="nav-pill">Code</a>
+    <a href="#categories" class="nav-pill">Utility</a>
+    <a href="#all-tools" class="header-cta">All Tools</a>
+  </nav>
+  <button class="menu-toggle" id="menu-toggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<section class="hero">
+  <img src="logo.png" alt="Free AI Conversion" class="hero-logo">
+  <h1>Convert Anything. <br><em>Pay Nothing.</em></h1>
+  <p class="hero-sub">Premium AI-powered tools for file conversion, image optimization, and content generation. 100% free, unlimited, and private.</p>
+
+  <div class="search-wrap">
+    <div class="search-bar">
+      <span class="s-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search for a tool..." autocomplete="off">
+      <button class="s-btn" onclick="searchTools()">Search</button>
+    </div>
+  </div>
+</section>
+
+<section class="categories" id="categories">
+  <div class="cat-grid">
+
+    <a href="pages/pdf-tools.html" class="cat-card">
+      <div class="cat-top">
+        <div class="cat-icon">📄</div>
+        <div class="cat-badge">3 Tools</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">PDF Tools</div>
+        <div class="cat-desc">Merge, split, compress, and convert PDFs.</div>
+      </div>
+      <span class="cat-arrow">→</span>
+      <div class="cat-foot">
+        <span class="cat-foot-label">Featured:</span>
+        <span class="cat-foot-tool">Merge PDF</span>
+      </div>
+    </a>
+
+    <a href="pages/image-converter.html" class="cat-card">
+      <div class="cat-top">
+        <div class="cat-icon">🖼️</div>
+        <div class="cat-badge">4 Tools</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Image Tools</div>
+        <div class="cat-desc">Convert, resize, and optimize images with AI.</div>
+      </div>
+      <span class="cat-arrow">→</span>
+      <div class="cat-foot">
+        <span class="cat-foot-label">Featured:</span>
+        <span class="cat-foot-tool">Optimizer</span>
+      </div>
+    </a>
+
+    <a href="pages/code-formatter.html" class="cat-card">
+      <div class="cat-top">
+        <div class="cat-icon">⌨️</div>
+        <div class="cat-badge">2 Tools</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Code Tools</div>
+        <div class="cat-desc">Format, beautify, and validate your code.</div>
+      </div>
+      <span class="cat-arrow">→</span>
+      <div class="cat-foot">
+        <span class="cat-foot-label">Featured:</span>
+        <span class="cat-foot-tool">Formatter</span>
+      </div>
+    </a>
+
+    <a href="pages/paragraph-gen.html" class="cat-card">
+      <div class="cat-top">
+        <div class="cat-icon">✍️</div>
+        <div class="cat-badge">3 Tools</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">AI Write</div>
+        <div class="cat-desc">Generate text, paragraphs, and essays with AI.</div>
+      </div>
+      <span class="cat-arrow">→</span>
+      <div class="cat-foot">
+        <span class="cat-foot-label">Featured:</span>
+        <span class="cat-foot-tool">Writer</span>
+      </div>
+    </a>
+
+    <a href="pages/password-gen.html" class="cat-card">
+      <div class="cat-top">
+        <div class="cat-icon">⚙️</div>
+        <div class="cat-badge">3 Tools</div>
+      </div>
+      <div class="cat-body">
+        <div class="cat-name">Utilities</div>
+        <div class="cat-desc">Passwords, color pickers, and everyday tools.</div>
+      </div>
+      <span class="cat-arrow">→</span>
+      <div class="cat-foot">
+        <span class="cat-foot-label">Featured:</span>
+        <span class="cat-foot-tool">Passwords</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="stats-bar">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-value">10+</div>
+      <div class="stat-label">Premium Tools</div>
+    </div>
+    <div>
+      <div class="stat-value">0$</div>
+      <div class="stat-label">Always Free</div>
+    </div>
+    <div>
+      <div class="stat-value">∞</div>
+      <div class="stat-label">Unlimited Uses</div>
+    </div>
+    <div>
+      <div class="stat-value">🔒</div>
+      <div class="stat-label">Privacy First</div>
+    </div>
+  </div>
+</section>
+
+<section class="all-tools" id="all-tools">
+  <h2 class="sec-title">All Tools</h2>
+  <p class="sec-sub">Browse our complete collection of premium tools</p>
+
+  <div class="tools-grid" id="tools-list">
+
+    <a href="pages/word-counter.html" class="tool-item" data-search="word counter count characters sentences">
+      <div class="ti-icon">📝</div>
+      <div class="ti-info">
+        <div class="ti-name">Word Counter</div>
+        <div class="ti-desc">Count words, characters, sentences & reading time</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/pdf-tools.html" class="tool-item" data-search="pdf merge split compress convert">
+      <div class="ti-icon">📄</div>
+      <div class="ti-info">
+        <div class="ti-name">PDF Tools</div>
+        <div class="ti-desc">Merge, split & compress PDFs</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/image-converter.html" class="tool-item" data-search="image converter png jpg webp bmp convert">
+      <div class="ti-icon">🖼️</div>
+      <div class="ti-info">
+        <div class="ti-name">Image Converter</div>
+        <div class="ti-desc">Convert between PNG, JPG, WEBP & BMP</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/image-optimizer.html" class="tool-item" data-search="image optimizer compress reduce size quality">
+      <div class="ti-icon">⚡</div>
+      <div class="ti-info">
+        <div class="ti-name">Image Optimizer</div>
+        <div class="ti-desc">Compress images with quality control</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/watermark.html" class="tool-item" data-search="watermark add text image protect">
+      <div class="ti-icon">💧</div>
+      <div class="ti-info">
+        <div class="ti-name">Watermark Generator</div>
+        <div class="ti-desc">Add text watermarks with full control</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/password-gen.html" class="tool-item" data-search="password generator secure random">
+      <div class="ti-icon">🔐</div>
+      <div class="ti-info">
+        <div class="ti-name">Password Generator</div>
+        <div class="ti-desc">Generate secure passwords with strength meter</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/redesign-tool.html" class="tool-item" data-search="redesign ui ux design ai analyze screenshot">
+      <div class="ti-icon">🎨</div>
+      <div class="ti-info">
+        <div class="ti-name">Redesign Tool</div>
+        <div class="ti-desc">AI-powered UI/UX redesign suggestions</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/code-formatter.html" class="tool-item" data-search="code formatter beautify json javascript html css sql">
+      <div class="ti-icon">⌨️</div>
+      <div class="ti-info">
+        <div class="ti-name">Code Formatter</div>
+        <div class="ti-desc">Format JS, JSON, HTML, CSS & SQL code</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/color-picker.html" class="tool-item" data-search="color picker hex rgb hsl extract image">
+      <div class="ti-icon">🎯</div>
+      <div class="ti-info">
+        <div class="ti-name">Color Picker</div>
+        <div class="ti-desc">Pick colors, get HEX/RGB values</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+    <a href="pages/paragraph-gen.html" class="tool-item" data-search="paragraph generator ai write content text">
+      <div class="ti-icon">✍️</div>
+      <div class="ti-info">
+        <div class="ti-name">Paragraph Generator</div>
+        <div class="ti-desc">AI-generated paragraphs from any topic</div>
+      </div>
+      <span class="ti-arrow">→</span>
+    </a>
+
+  </div>
+</section>
+
+<section class="features">
+  <h2 class="sec-title" style="margin-bottom:36px;">Why Choose Us?</h2>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="fi">🔒</div>
+      <div class="ft">Privacy First</div>
+      <div class="fd">Files processed in your browser. Nothing uploaded to our servers.</div>
+    </div>
+    <div class="feat-card">
+      <div class="fi">⚡</div>
+      <div class="ft">Instant Results</div>
+      <div class="fd">No waiting. Client-side processing for maximum speed.</div>
+    </div>
+    <div class="feat-card">
+      <div class="fi">♾️</div>
+      <div class="ft">Unlimited</div>
+      <div class="fd">No daily limits. No sign-up walls. Free forever.</div>
+    </div>
+    <div class="feat-card">
+      <div class="fi">🤖</div>
+      <div class="ft">AI Powered</div>
+      <div class="fd">State-of-the-art AI for smart generation and optimization.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 Free AI Conversion.</div>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Privacy</a>
+      <a href="#" class="footer-link">Terms</a>
+      <a href="#" class="footer-link">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const searchInput = document.getElementById('search-input');
+const toolItems = document.querySelectorAll('.tool-item');
+
+searchInput.addEventListener('input', searchTools);
+searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') searchTools(); });
+
+function searchTools() {
+  const q = searchInput.value.toLowerCase().trim();
+  const allToolsSection = document.getElementById('all-tools');
+
+  if (q) {
+    allToolsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  toolItems.forEach(item => {
+    const name = item.querySelector('.ti-name').textContent.toLowerCase();
+    const desc = item.querySelector('.ti-desc').textContent.toLowerCase();
+    const data = (item.dataset.search || '').toLowerCase();
+    const match = !q || name.includes(q) || desc.includes(q) || data.includes(q);
+    item.style.display = match ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Redesign Tool — FREE AI CONVERSION</title>
+<meta name="description" content="Upload a screenshot and get AI-powered redesign suggestions. Powered by Gemini Vision. Free.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>🎨 Redesign Tool</h1>
+    <p>Upload a screenshot or UI image — AI will analyze it and suggest redesign improvements.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon">🎨</div>
+      <div class="upload-title">Drop a screenshot here or click to browse</div>
+      <div class="upload-hint">Upload any UI screenshot — the AI will analyze and suggest improvements</div>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <div id="editor" style="display:none;">
+      <div class="preview-img-wrap" style="margin-bottom:var(--space-lg);">
+        <img id="preview-img" style="max-height:400px;">
+      </div>
+
+      <div class="controls-row">
+        <div class="control-group">
+          <label class="control-label">Analysis Focus</label>
+          <select class="control-select" id="focus">
+            <option value="full redesign suggestions">Full Redesign</option>
+            <option value="color palette improvements">Color Palette</option>
+            <option value="typography and layout">Typography & Layout</option>
+            <option value="UX/usability improvements">UX / Usability</option>
+            <option value="mobile responsiveness">Mobile Responsiveness</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="analyzeDesign()" id="analyze-btn">🤖 Analyze with AI</button>
+    </div>
+
+    <div id="loading" style="display:none;text-align:center;padding:var(--space-2xl);color:var(--text-muted);">
+      <div style="font-size:28px;margin-bottom:var(--space-sm);animation:pulse 1s ease-in-out infinite;">🤖</div>
+      <div>Analyzing your design with Gemini Vision AI...</div>
+    </div>
+
+    <div class="result-box" id="result-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);">
+        <span style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;font-weight:600;">AI Analysis</span>
+        <button class="btn btn-secondary" onclick="copyResult()" style="padding:6px 14px;font-size:11px;">📋 Copy</button>
+      </div>
+      <div id="output" style="font-size:14px;line-height:1.9;color:var(--text-secondary);white-space:pre-wrap;"></div>
+    </div>
+
+    <div style="margin-top:var(--space-xl);border-top:1px solid var(--accent-border);padding-top:var(--space-lg);">
+      <div class="controls-row">
+        <div class="control-group" style="flex:3">
+          <label class="control-label">Gemini API Key</label>
+          <input type="password" class="control-input" id="api-key" placeholder="Paste your Gemini API key...">
+        </div>
+        <button class="btn btn-secondary" onclick="saveKey()" style="align-self:flex-end;">Save</button>
+      </div>
+      <p style="font-size:11px;color:var(--text-dim);margin-top:var(--space-sm);">Free key: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--text-muted);text-decoration:underline;">aistudio.google.com</a></p>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const API_KEY_STORE = 'freeai_gemini_key';
+const DEFAULT_KEY = 'AIzaSyCrBR8QIYZDqRy-86rUAqmFadT9aDmehk0';
+let apiKey = localStorage.getItem(API_KEY_STORE) || DEFAULT_KEY;
+let imageBase64 = '';
+
+document.getElementById('api-key').value = apiKey === DEFAULT_KEY ? '' : apiKey;
+
+function saveKey() {
+  const k = document.getElementById('api-key').value.trim();
+  if (k) { apiKey = k; localStorage.setItem(API_KEY_STORE, k); showToast('Key saved!'); }
+}
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('preview-img').src = ev.target.result;
+    imageBase64 = ev.target.result.split(',')[1];
+    document.getElementById('upload-zone').style.display = 'none';
+    document.getElementById('editor').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+async function analyzeDesign() {
+  if (!imageBase64) return;
+  const focus = document.getElementById('focus').value;
+
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('result-box').classList.remove('show');
+  document.getElementById('analyze-btn').disabled = true;
+
+  const prompt = `You are an expert UI/UX designer. Analyze this screenshot and provide ${focus}.
+
+Structure your response as:
+
+OVERALL IMPRESSION:
+(Brief assessment of the current design)
+
+ISSUES FOUND:
+(Numbered list of specific design problems)
+
+REDESIGN SUGGESTIONS:
+(Numbered list of specific, actionable improvements)
+
+COLOR RECOMMENDATIONS:
+(Suggest a better color palette with hex codes if applicable)
+
+Keep it practical, specific, and actionable. No generic advice.`;
+
+  try {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        contents: [{role:'user', parts:[
+          {text: prompt},
+          {inline_data: {mime_type: 'image/jpeg', data: imageBase64}}
+        ]}],
+        generationConfig: {temperature: 0.7, maxOutputTokens: 2048}
+      })
+    });
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Error analyzing design.';
+    document.getElementById('output').textContent = text;
+    document.getElementById('result-box').classList.add('show');
+    showToast('Analysis complete!');
+  } catch (e) {
+    document.getElementById('output').textContent = '❌ Error: ' + e.message;
+    document.getElementById('result-box').classList.add('show');
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('analyze-btn').disabled = false;
+}
+
+function copyResult() {
+  navigator.clipboard.writeText(document.getElementById('output').textContent);
+  showToast('Copied!');
+}
+
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+</script>
+</body>
+</html>

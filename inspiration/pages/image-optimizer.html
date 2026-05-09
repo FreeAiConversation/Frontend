@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Optimizer — FREE AI CONVERSION</title>
+<meta name="description" content="Compress and optimize images online for free. Adjust quality, see before/after comparison. Client-side processing.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>⚡ Image Optimizer</h1>
+    <p>Compress images with adjustable quality. See before/after file sizes instantly.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon">📁</div>
+      <div class="upload-title">Drop an image here or click to browse</div>
+      <div class="upload-hint">PNG, JPG, WEBP — Max 20MB</div>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <div id="editor" style="display:none;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-md);margin-bottom:var(--space-lg);">
+        <div class="preview-img-wrap" style="position:relative;">
+          <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;">ORIGINAL</div>
+          <img id="orig-img" style="max-height:300px;width:100%;object-fit:contain;">
+        </div>
+        <div class="preview-img-wrap" style="position:relative;">
+          <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.7);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;color:var(--success);">OPTIMIZED</div>
+          <canvas id="canvas" style="max-height:300px;width:100%;object-fit:contain;"></canvas>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="s-orig">—</div>
+          <div class="stat-label">Original</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-new">—</div>
+          <div class="stat-label">Optimized</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-saved" style="color:var(--success)">—</div>
+          <div class="stat-label">Saved</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-dims">—</div>
+          <div class="stat-label">Dimensions</div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="control-group" style="flex:2">
+          <label class="control-label">Quality: <span id="q-val">75</span>%</label>
+          <div class="range-wrap"><input type="range" class="range-slider" id="quality" min="5" max="100" value="75"></div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Format</label>
+          <select class="control-select" id="format">
+            <option value="image/webp">WEBP (best)</option>
+            <option value="image/jpeg">JPEG</option>
+            <option value="image/png">PNG</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn btn-primary btn-block" onclick="downloadOptimized()">⬇ Download Optimized</button>
+      </div>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let origFile = null, origImg = null;
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  origFile = file;
+  const img = new Image();
+  img.onload = () => {
+    origImg = img;
+    document.getElementById('orig-img').src = img.src;
+    canvas.width = img.width; canvas.height = img.height;
+    document.getElementById('upload-zone').style.display = 'none';
+    document.getElementById('editor').style.display = 'block';
+    document.getElementById('s-dims').textContent = img.width + '×' + img.height;
+    document.getElementById('s-orig').textContent = formatSize(file.size);
+    optimize();
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+document.getElementById('quality').addEventListener('input', e => {
+  document.getElementById('q-val').textContent = e.target.value;
+  optimize();
+});
+document.getElementById('format').addEventListener('change', optimize);
+
+function optimize() {
+  if (!origImg) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(origImg, 0, 0);
+  const quality = parseInt(document.getElementById('quality').value) / 100;
+  const format = document.getElementById('format').value;
+
+  canvas.toBlob(blob => {
+    const newSize = blob.size;
+    const origSize = origFile.size;
+    const saved = Math.max(0, Math.round((1 - newSize / origSize) * 100));
+    document.getElementById('s-new').textContent = formatSize(newSize);
+    document.getElementById('s-saved').textContent = saved + '%';
+  }, format, quality);
+}
+
+function downloadOptimized() {
+  const quality = parseInt(document.getElementById('quality').value) / 100;
+  const format = document.getElementById('format').value;
+  const ext = format.split('/')[1];
+  canvas.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'optimized.' + ext;
+    a.click();
+    showToast('Downloaded!');
+  }, format, quality);
+}
+
+function formatSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(2) + ' MB';
+}
+
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+</script>
+</body>
+</html>

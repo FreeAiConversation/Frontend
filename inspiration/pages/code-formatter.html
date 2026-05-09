@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Formatter — FREE AI CONVERSION</title>
+<meta name="description" content="Format and beautify JavaScript, JSON, HTML, CSS, SQL code online for free. Instant formatting, no upload.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>⌨️ Code Formatter</h1>
+    <p>Beautify and format JavaScript, JSON, HTML, CSS & SQL code instantly.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="controls-row">
+      <div class="control-group">
+        <label class="control-label">Language</label>
+        <select class="control-select" id="lang-select">
+          <option value="json">JSON</option>
+          <option value="javascript">JavaScript</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="sql">SQL</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label class="control-label">Indent</label>
+        <select class="control-select" id="indent-select">
+          <option value="2">2 Spaces</option>
+          <option value="4">4 Spaces</option>
+          <option value="tab">Tab</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="text-area-wrap">
+      <textarea class="tool-textarea" id="code-input" placeholder="Paste your code here..." rows="12" style="font-family:'Fira Code','Cascadia Code',monospace;font-size:13px;tab-size:2;"></textarea>
+    </div>
+
+    <div class="controls-row">
+      <button class="btn btn-primary" onclick="formatCode()" style="flex:1">⚡ Format Code</button>
+      <button class="btn btn-secondary" onclick="minifyCode()">Minify</button>
+      <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy</button>
+      <button class="btn btn-secondary" onclick="clearAll()">Clear</button>
+    </div>
+
+    <div class="result-box show" id="result-box" style="margin-top:var(--space-lg);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md);">
+        <span style="font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;font-weight:600;">Output</span>
+        <span style="font-size:11px;color:var(--text-dim);" id="output-info"></span>
+      </div>
+      <pre id="code-output" style="min-height:100px;"></pre>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+function formatCode() {
+  const lang = document.getElementById('lang-select').value;
+  const input = document.getElementById('code-input').value.trim();
+  const indentVal = document.getElementById('indent-select').value;
+  const indent = indentVal === 'tab' ? '\t' : parseInt(indentVal);
+
+  if (!input) { showToast('Paste some code first!'); return; }
+
+  let output = '';
+  try {
+    if (lang === 'json') {
+      output = JSON.stringify(JSON.parse(input), null, indent);
+    } else if (lang === 'html') {
+      output = formatHTML(input, typeof indent === 'number' ? ' '.repeat(indent) : '\t');
+    } else if (lang === 'css') {
+      output = formatCSS(input, typeof indent === 'number' ? ' '.repeat(indent) : '\t');
+    } else if (lang === 'javascript') {
+      output = formatJS(input, typeof indent === 'number' ? ' '.repeat(indent) : '\t');
+    } else if (lang === 'sql') {
+      output = formatSQL(input);
+    }
+    document.getElementById('code-output').textContent = output;
+    document.getElementById('output-info').textContent = `${output.split('\n').length} lines`;
+    showToast('Formatted!');
+  } catch (e) {
+    document.getElementById('code-output').textContent = '❌ Error: ' + e.message;
+    showToast('Format error — check your code syntax');
+  }
+}
+
+function minifyCode() {
+  const input = document.getElementById('code-input').value.trim();
+  if (!input) return;
+  const lang = document.getElementById('lang-select').value;
+  let output = input;
+  if (lang === 'json') {
+    try { output = JSON.stringify(JSON.parse(input)); } catch(e) {}
+  } else {
+    output = input.replace(/\s*\n\s*/g, '').replace(/\s{2,}/g, ' ').replace(/\s*([{}:;,])\s*/g, '$1');
+  }
+  document.getElementById('code-output').textContent = output;
+  document.getElementById('output-info').textContent = `${output.length} chars (minified)`;
+  showToast('Minified!');
+}
+
+function formatHTML(html, indent) {
+  let result = '', level = 0;
+  const selfClose = ['area','base','br','col','embed','hr','img','input','link','meta','source','track','wbr'];
+  html = html.replace(/>\s+</g, '><').trim();
+  const tokens = html.match(/<!--[\s\S]*?-->|<[^>]+>|[^<]+/g) || [];
+  tokens.forEach(t => {
+    t = t.trim(); if (!t) return;
+    if (t.startsWith('</')) { level = Math.max(0, level-1); result += indent.repeat(level) + t + '\n'; }
+    else if (t.startsWith('<')) {
+      result += indent.repeat(level) + t + '\n';
+      const tag = (t.match(/<(\w+)/) || [])[1];
+      if (tag && !selfClose.includes(tag.toLowerCase()) && !t.endsWith('/>')) level++;
+    } else { result += indent.repeat(level) + t + '\n'; }
+  });
+  return result.trim();
+}
+
+function formatCSS(css, indent) {
+  return css.replace(/\s*{\s*/g, ' {\n').replace(/\s*}\s*/g, '\n}\n\n').replace(/;\s*/g, ';\n')
+    .split('\n').map(line => {
+      line = line.trim();
+      if (!line) return '';
+      if (line.endsWith('{') || line === '}') return line;
+      return indent + line;
+    }).filter(l => l !== '').join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+function formatJS(js, indent) {
+  let result = '', level = 0, inString = false, strChar = '';
+  for (let i = 0; i < js.length; i++) {
+    const c = js[i], prev = js[i-1] || '';
+    if (inString) { result += c; if (c === strChar && prev !== '\\') inString = false; continue; }
+    if (c === '"' || c === "'" || c === '`') { inString = true; strChar = c; result += c; continue; }
+    if (c === '{' || c === '[') { result += ' ' + c + '\n'; level++; result += indent.repeat(level); }
+    else if (c === '}' || c === ']') { result += '\n'; level = Math.max(0, level-1); result += indent.repeat(level) + c; }
+    else if (c === ';') { result += ';\n' + indent.repeat(level); }
+    else if (c === ',') { result += ',\n' + indent.repeat(level); }
+    else { result += c; }
+  }
+  return result.replace(/\n\s*\n/g, '\n').trim();
+}
+
+function formatSQL(sql) {
+  const kw = ['SELECT','FROM','WHERE','AND','OR','JOIN','LEFT JOIN','RIGHT JOIN','INNER JOIN','ON','ORDER BY','GROUP BY','HAVING','LIMIT','INSERT INTO','VALUES','UPDATE','SET','DELETE FROM','CREATE TABLE','ALTER TABLE','DROP TABLE','UNION','CASE','WHEN','THEN','ELSE','END','AS','IN','NOT','NULL','IS','BETWEEN','LIKE','EXISTS'];
+  let result = sql;
+  kw.forEach(k => {
+    result = result.replace(new RegExp('\\b' + k.replace(/ /g, '\\s+') + '\\b', 'gi'), '\n' + k);
+  });
+  return result.trim();
+}
+
+function copyOutput() {
+  const t = document.getElementById('code-output').textContent;
+  if (!t) return;
+  navigator.clipboard.writeText(t);
+  showToast('Code copied!');
+}
+
+function clearAll() {
+  document.getElementById('code-input').value = '';
+  document.getElementById('code-output').textContent = '';
+  document.getElementById('output-info').textContent = '';
+}
+
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+</script>
+</body>
+</html>

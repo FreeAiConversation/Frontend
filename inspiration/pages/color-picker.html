@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Picker — FREE AI CONVERSION</title>
+<meta name="description" content="Pick any color and get HEX, RGB, HSL values instantly. Extract colors from images. Free online color picker.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>🎯 Color Picker</h1>
+    <p>Pick any color — get HEX, RGB, HSL values. Extract colors from images.</p>
+  </div>
+
+  <div class="tool-container">
+    <div class="tool-body">
+
+      <div style="display:flex;gap:var(--space-md);margin-bottom:var(--space-lg);flex-wrap:wrap;">
+        <div class="control-group" style="flex:1;min-width:200px;">
+          <label class="control-label">Pick a Color</label>
+          <input type="color" id="color-input" value="#667eea"
+            style="width:100%;height:50px;border:1px solid var(--accent-border);border-radius:var(--radius-md);cursor:pointer;background:none;padding:2px;">
+        </div>
+        <div class="control-group" style="flex:1;min-width:200px;">
+          <label class="control-label">Or Enter HEX</label>
+          <input type="text" class="control-input" id="hex-input" value="#667eea" placeholder="#000000"
+            style="font-family:'Fira Code',monospace;font-size:16px;font-weight:600;">
+        </div>
+      </div>
+
+      <div class="color-preview" id="color-preview" style="background:#667eea;"></div>
+
+      <div class="color-values" id="color-values">
+        <div class="color-value-card" onclick="copyVal('hex')">
+          <div><div class="cv-label">HEX</div><div class="cv-value" id="cv-hex">#667eea</div></div>
+          <div class="cv-copy">Click to copy</div>
+        </div>
+        <div class="color-value-card" onclick="copyVal('rgb')">
+          <div><div class="cv-label">RGB</div><div class="cv-value" id="cv-rgb">rgb(102, 126, 234)</div></div>
+          <div class="cv-copy">Click to copy</div>
+        </div>
+        <div class="color-value-card" onclick="copyVal('hsl')">
+          <div><div class="cv-label">HSL</div><div class="cv-value" id="cv-hsl">hsl(229, 75%, 66%)</div></div>
+          <div class="cv-copy">Click to copy</div>
+        </div>
+        <div class="color-value-card" onclick="copyVal('rgba')">
+          <div><div class="cv-label">RGBA</div><div class="cv-value" id="cv-rgba">rgba(102, 126, 234, 1)</div></div>
+          <div class="cv-copy">Click to copy</div>
+        </div>
+      </div>
+
+      <!-- Image color extraction -->
+      <div style="margin-top:var(--space-xl);border-top:1px solid var(--accent-border);padding-top:var(--space-xl);">
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:var(--space-md);">🖼️ Extract Color from Image</h3>
+        <div class="upload-zone" id="img-upload-zone" style="padding:var(--space-xl);">
+          <div class="upload-icon">📁</div>
+          <div class="upload-title">Drop an image to pick colors from</div>
+          <div class="upload-hint">Click anywhere on the image to pick a color</div>
+          <input type="file" id="img-file" accept="image/*">
+        </div>
+        <div style="display:none;margin-top:var(--space-md);" id="img-canvas-wrap">
+          <canvas id="img-canvas" style="max-width:100%;border-radius:var(--radius-lg);border:1px solid var(--accent-border);cursor:crosshair;"></canvas>
+          <p style="font-size:12px;color:var(--text-dim);margin-top:var(--space-sm);">Click on the image to pick a color</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const colorInput = document.getElementById('color-input');
+const hexInput = document.getElementById('hex-input');
+const preview = document.getElementById('color-preview');
+
+colorInput.addEventListener('input', () => { hexInput.value = colorInput.value; updateColor(colorInput.value); });
+hexInput.addEventListener('input', () => {
+  let v = hexInput.value;
+  if (/^#[0-9A-Fa-f]{6}$/.test(v)) { colorInput.value = v; updateColor(v); }
+});
+
+function updateColor(hex) {
+  preview.style.background = hex;
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const rn=r/255, gn=g/255, bn=b/255;
+  const max=Math.max(rn,gn,bn), min=Math.min(rn,gn,bn), d=max-min;
+  let h=0, s=0, l=(max+min)/2;
+  if(d!==0){
+    s = l>0.5 ? d/(2-max-min) : d/(max+min);
+    if(max===rn) h=((gn-bn)/d+(gn<bn?6:0))/6;
+    else if(max===gn) h=((bn-rn)/d+2)/6;
+    else h=((rn-gn)/d+4)/6;
+  }
+  h=Math.round(h*360); s=Math.round(s*100); l=Math.round(l*100);
+
+  document.getElementById('cv-hex').textContent = hex;
+  document.getElementById('cv-rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+  document.getElementById('cv-hsl').textContent = `hsl(${h}, ${s}%, ${l}%)`;
+  document.getElementById('cv-rgba').textContent = `rgba(${r}, ${g}, ${b}, 1)`;
+}
+
+function copyVal(type) {
+  const el = document.getElementById('cv-' + type);
+  navigator.clipboard.writeText(el.textContent);
+  showToast(type.toUpperCase() + ' copied!');
+}
+
+// Image color extraction
+const imgFile = document.getElementById('img-file');
+const imgCanvas = document.getElementById('img-canvas');
+const imgCtx = imgCanvas.getContext('2d', {willReadFrequently: true});
+
+imgFile.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    const maxW = 800;
+    const scale = img.width > maxW ? maxW / img.width : 1;
+    imgCanvas.width = img.width * scale;
+    imgCanvas.height = img.height * scale;
+    imgCtx.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
+    document.getElementById('img-upload-zone').style.display = 'none';
+    document.getElementById('img-canvas-wrap').style.display = 'block';
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+imgCanvas.addEventListener('click', (e) => {
+  const rect = imgCanvas.getBoundingClientRect();
+  const sx = imgCanvas.width / rect.width;
+  const sy = imgCanvas.height / rect.height;
+  const x = Math.round((e.clientX - rect.left) * sx);
+  const y = Math.round((e.clientY - rect.top) * sy);
+  const [r,g,b] = imgCtx.getImageData(x, y, 1, 1).data;
+  const hex = '#' + [r,g,b].map(c => c.toString(16).padStart(2,'0')).join('');
+  colorInput.value = hex;
+  hexInput.value = hex;
+  updateColor(hex);
+  showToast('Color picked: ' + hex);
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+updateColor('#667eea');
+</script>
+</body>
+</html>

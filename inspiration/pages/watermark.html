@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watermark Generator — FREE AI CONVERSION</title>
+<meta name="description" content="Add text watermarks to images with full control over position, font, opacity and color. Free, client-side.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav"><a href="../index.html#tools" class="nav-link">All Tools</a></nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>💧 Watermark Generator</h1>
+    <p>Add text watermarks to your images — full control over position, size, opacity & color.</p>
+  </div>
+
+  <div class="tool-container"><div class="tool-body">
+
+    <div class="upload-zone" id="upload-zone">
+      <div class="upload-icon">📁</div>
+      <div class="upload-title">Drop an image here or click to browse</div>
+      <div class="upload-hint">PNG, JPG, WEBP — Max 20MB</div>
+      <input type="file" id="file-input" accept="image/*">
+    </div>
+
+    <div id="editor" style="display:none;">
+      <div class="preview-img-wrap"><canvas id="canvas" style="max-width:100%;border-radius:var(--radius-md);"></canvas></div>
+
+      <div class="controls-row">
+        <div class="control-group" style="flex:2">
+          <label class="control-label">Watermark Text</label>
+          <input type="text" class="control-input" id="wm-text" value="FREE AI CONVERSION" placeholder="Your watermark text">
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="control-group">
+          <label class="control-label">Font Size</label>
+          <div class="range-wrap"><input type="range" class="range-slider" id="wm-size" min="10" max="120" value="36"><span class="range-value" id="wm-size-val">36px</span></div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Opacity</label>
+          <div class="range-wrap"><input type="range" class="range-slider" id="wm-opacity" min="5" max="100" value="30"><span class="range-value" id="wm-opacity-val">30%</span></div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <div class="control-group">
+          <label class="control-label">Position</label>
+          <select class="control-select" id="wm-pos">
+            <option value="center">Center</option>
+            <option value="top-left">Top Left</option>
+            <option value="top-right">Top Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="bottom-right">Bottom Right</option>
+            <option value="tile">Tiled (Repeat)</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label class="control-label">Color</label>
+          <input type="color" id="wm-color" value="#ffffff" style="width:100%;height:40px;border:1px solid var(--accent-border);border-radius:var(--radius-md);cursor:pointer;background:none;padding:2px;">
+        </div>
+        <div class="control-group">
+          <label class="control-label">Rotation</label>
+          <div class="range-wrap"><input type="range" class="range-slider" id="wm-rotate" min="-90" max="90" value="-30"><span class="range-value" id="wm-rotate-val">-30°</span></div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn btn-primary btn-block" onclick="downloadResult()">⬇ Download Watermarked Image</button>
+      </div>
+    </div>
+
+  </div></div>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let origImg = null;
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const img = new Image();
+  img.onload = () => {
+    origImg = img;
+    canvas.width = img.width; canvas.height = img.height;
+    document.getElementById('upload-zone').style.display = 'none';
+    document.getElementById('editor').style.display = 'block';
+    render();
+  };
+  img.src = URL.createObjectURL(file);
+});
+
+['wm-text','wm-size','wm-opacity','wm-pos','wm-color','wm-rotate'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
+});
+
+document.getElementById('wm-size').addEventListener('input', e => document.getElementById('wm-size-val').textContent = e.target.value + 'px');
+document.getElementById('wm-opacity').addEventListener('input', e => document.getElementById('wm-opacity-val').textContent = e.target.value + '%');
+document.getElementById('wm-rotate').addEventListener('input', e => document.getElementById('wm-rotate-val').textContent = e.target.value + '°');
+
+function render() {
+  if (!origImg) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(origImg, 0, 0);
+
+  const text = document.getElementById('wm-text').value || 'Watermark';
+  const size = parseInt(document.getElementById('wm-size').value);
+  const opacity = parseInt(document.getElementById('wm-opacity').value) / 100;
+  const pos = document.getElementById('wm-pos').value;
+  const color = document.getElementById('wm-color').value;
+  const rotate = parseInt(document.getElementById('wm-rotate').value) * Math.PI / 180;
+
+  ctx.save();
+  ctx.globalAlpha = opacity;
+  ctx.fillStyle = color;
+  ctx.font = `bold ${size}px Inter, Arial, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  if (pos === 'tile') {
+    const gap = size * 5;
+    for (let y = -canvas.height; y < canvas.height * 2; y += gap) {
+      for (let x = -canvas.width; x < canvas.width * 2; x += gap) {
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rotate); ctx.fillText(text, 0, 0); ctx.restore();
+      }
+    }
+  } else {
+    let x, y;
+    const pad = size;
+    if (pos === 'center') { x = canvas.width/2; y = canvas.height/2; }
+    else if (pos === 'top-left') { x = pad + ctx.measureText(text).width/2; y = pad; }
+    else if (pos === 'top-right') { x = canvas.width - pad - ctx.measureText(text).width/2; y = pad; }
+    else if (pos === 'bottom-left') { x = pad + ctx.measureText(text).width/2; y = canvas.height - pad; }
+    else { x = canvas.width - pad - ctx.measureText(text).width/2; y = canvas.height - pad; }
+    ctx.translate(x, y); ctx.rotate(rotate); ctx.fillText(text, 0, 0);
+  }
+  ctx.restore();
+}
+
+function downloadResult() {
+  canvas.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'watermarked-image.png';
+    a.click();
+    showToast('Downloaded!');
+  }, 'image/png');
+}
+
+function showToast(m) { const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+</script>
+</body>
+</html>

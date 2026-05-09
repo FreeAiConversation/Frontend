@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word Counter — FREE AI CONVERSION</title>
+<meta name="description" content="Count words, characters, sentences, paragraphs and reading time instantly. Free, no login required.">
+<link rel="stylesheet" href="../css/global.css">
+<link rel="stylesheet" href="../css/tools.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a href="../index.html" class="header-logo">
+    <img src="../logo.png" alt="Free AI Conversion Logo" style="height:24px;width:auto;">
+  </a>
+  <nav class="header-nav">
+    <a href="../index.html#tools" class="nav-link">All Tools</a>
+    <a href="../index.html#features" class="nav-link">Features</a>
+  </nav>
+</header>
+
+<main class="tool-page">
+  <div class="tool-page-header">
+    <a href="../index.html" class="back-link">← Back to all tools</a>
+    <h1>📝 Word Counter</h1>
+    <p>Count words, characters, sentences, paragraphs & estimate reading time — instantly.</p>
+  </div>
+
+  <div class="tool-container">
+    <div class="tool-body">
+      <div class="text-area-wrap">
+        <textarea class="tool-textarea" id="text-input" placeholder="Start typing or paste your text here..." rows="10"></textarea>
+        <span class="char-hint" id="char-hint">0 chars</span>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="s-words">0</div>
+          <div class="stat-label">Words</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-chars">0</div>
+          <div class="stat-label">Characters</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-chars-ns">0</div>
+          <div class="stat-label">No Spaces</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-sentences">0</div>
+          <div class="stat-label">Sentences</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-paragraphs">0</div>
+          <div class="stat-label">Paragraphs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="s-reading">0s</div>
+          <div class="stat-label">Reading Time</div>
+        </div>
+      </div>
+
+      <div class="controls-row">
+        <button class="btn btn-secondary" onclick="document.getElementById('text-input').value='';countWords()">Clear Text</button>
+        <button class="btn btn-secondary" onclick="copyText()">Copy Text</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+const input = document.getElementById('text-input');
+
+input.addEventListener('input', countWords);
+
+function countWords() {
+  const text = input.value;
+  const trimmed = text.trim();
+
+  const words = trimmed === '' ? 0 : trimmed.split(/\s+/).length;
+  const chars = text.length;
+  const charsNoSpace = text.replace(/\s/g, '').length;
+  const sentences = trimmed === '' ? 0 : (trimmed.match(/[.!?।]+/g) || []).length || (trimmed.length > 0 ? 1 : 0);
+  const paragraphs = trimmed === '' ? 0 : trimmed.split(/\n\s*\n/).filter(p => p.trim()).length || (trimmed.length > 0 ? 1 : 0);
+
+  const wpm = 200;
+  const mins = Math.floor(words / wpm);
+  const secs = Math.round((words % wpm) / wpm * 60);
+  const readTime = mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+
+  document.getElementById('s-words').textContent = words;
+  document.getElementById('s-chars').textContent = chars;
+  document.getElementById('s-chars-ns').textContent = charsNoSpace;
+  document.getElementById('s-sentences').textContent = sentences;
+  document.getElementById('s-paragraphs').textContent = paragraphs;
+  document.getElementById('s-reading').textContent = readTime;
+  document.getElementById('char-hint').textContent = chars + ' chars';
+}
+
+function copyText() {
+  navigator.clipboard.writeText(input.value);
+  showToast('Text copied!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+</script>
+</body>
+</html>
