@@ -58,7 +58,7 @@ export function UseCases() {
             Built for Everyone
           </h2>
           <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto">
-            Whether you're a student, professional, or creator — our tools help you work smarter
+            Whether you&apos;re a student, professional, or creator — our tools help you work smarter
           </p>
         </div>
 

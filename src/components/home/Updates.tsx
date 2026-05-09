@@ -17,7 +17,7 @@ export function Updates() {
             </span>
           </div>
           <h2 className="text-[clamp(32px,4vw,48px)] font-black tracking-tight mb-4">
-            What's New
+            What&apos;s New
           </h2>
           <p className="text-text-muted text-base md:text-lg max-w-2xl mx-auto">
             Stay updated with our latest features, improvements, and new tools

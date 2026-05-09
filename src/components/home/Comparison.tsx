@@ -121,7 +121,7 @@ export function Comparison() {
                         {competitor.name}
                         {competitor.isUs && (
                           <div className="mt-1 text-[10px] font-bold text-white/60 normal-case tracking-normal">
-                            (You're here)
+                            (You&apos;re here)
                           </div>
                         )}
                       </th>
@@ -178,7 +178,7 @@ export function Comparison() {
                   </h3>
                   {competitor.isUs && (
                     <p className="text-xs text-text-secondary mt-1">
-                      You're here
+                      You&apos;re here
                     </p>
                   )}
                 </div>
