@@ -177,3 +177,151 @@ export const features = [
     description: 'State-of-the-art AI for smart generation and optimization.',
   },
 ];
+
+export interface Update {
+  id: string;
+  date: string;
+  type: 'new' | 'improved' | 'fixed';
+  title: string;
+  description: string;
+}
+
+export const updates: Update[] = [
+  {
+    id: 'update-1',
+    date: 'May 9, 2026',
+    type: 'new',
+    title: 'Image Optimizer Launched',
+    description: 'Compress images with advanced quality control. Reduce file sizes by up to 80% while maintaining visual quality.',
+  },
+  {
+    id: 'update-2',
+    date: 'May 5, 2026',
+    type: 'improved',
+    title: 'PDF Tools Enhanced',
+    description: 'Faster PDF processing with improved merge and split capabilities. Now supports larger files up to 50MB.',
+  },
+  {
+    id: 'update-3',
+    date: 'May 1, 2026',
+    type: 'new',
+    title: 'AI Redesign Tool',
+    description: 'Upload screenshots and get AI-powered UI/UX improvement suggestions. Perfect for designers and developers.',
+  },
+  {
+    id: 'update-4',
+    date: 'Apr 28, 2026',
+    type: 'improved',
+    title: 'Code Formatter Update',
+    description: 'Added support for SQL formatting and improved JavaScript/JSON beautification with better error handling.',
+  },
+  {
+    id: 'update-5',
+    date: 'Apr 25, 2026',
+    type: 'new',
+    title: 'Watermark Generator',
+    description: 'Add custom text watermarks to images with full control over position, opacity, and styling.',
+  },
+  {
+    id: 'update-6',
+    date: 'Apr 20, 2026',
+    type: 'fixed',
+    title: 'Performance Improvements',
+    description: 'Optimized all tools for faster loading and processing. Reduced initial page load time by 40%.',
+  },
+];
+
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export const faqs: FAQ[] = [
+  {
+    id: 'faq-1',
+    question: 'Are these tools really free?',
+    answer: 'Yes! All our tools are 100% free with no hidden costs, no subscription fees, and no premium tiers. We believe everyone should have access to quality tools without paying.',
+  },
+  {
+    id: 'faq-2',
+    question: 'Do I need to create an account?',
+    answer: 'No account required! You can use all our tools instantly without signing up, providing an email, or creating a password. Just visit and start using.',
+  },
+  {
+    id: 'faq-3',
+    question: 'Is my data safe and private?',
+    answer: 'Absolutely. All file processing happens directly in your browser using client-side JavaScript. Your files never leave your device and are never uploaded to our servers. We take privacy seriously.',
+  },
+  {
+    id: 'faq-4',
+    question: 'Are there any usage limits?',
+    answer: 'No limits! Use our tools as many times as you want, whenever you want. No daily caps, no monthly quotas, no restrictions. Unlimited usage forever.',
+  },
+  {
+    id: 'faq-5',
+    question: 'What file formats are supported?',
+    answer: 'We support all common formats: PDF, PNG, JPG, WEBP, BMP for images, and JavaScript, JSON, HTML, CSS, SQL for code formatting. More formats are being added regularly.',
+  },
+  {
+    id: 'faq-6',
+    question: 'Do the tools work offline?',
+    answer: 'Most tools work offline after the initial page load since processing happens in your browser. However, AI-powered features like the Paragraph Generator and Redesign Tool require an internet connection.',
+  },
+  {
+    id: 'faq-7',
+    question: 'Can I use these tools for commercial projects?',
+    answer: 'Yes! You can use our tools for personal or commercial projects without any restrictions. No attribution required, though we always appreciate it.',
+  },
+  {
+    id: 'faq-8',
+    question: 'How do you make money if everything is free?',
+    answer: 'We display minimal, non-intrusive ads to cover hosting costs. We may also offer optional premium features in the future, but all core tools will always remain free.',
+  },
+];
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  text: string;
+}
+
+export const testimonials: Testimonial[] = [
+  {
+    id: 'testimonial-1',
+    name: 'Sarah Chen',
+    role: 'Graphic Designer',
+    text: 'The image optimizer is a lifesaver! I can compress dozens of images in seconds without losing quality. No more waiting for slow online converters.',
+  },
+  {
+    id: 'testimonial-2',
+    name: 'Marcus Johnson',
+    role: 'Web Developer',
+    text: 'Finally, a code formatter that just works. No signup, no limits, and it handles all my languages. This is now my go-to tool for quick formatting.',
+  },
+  {
+    id: 'testimonial-3',
+    name: 'Emily Rodriguez',
+    role: 'Content Writer',
+    text: 'The paragraph generator helps me overcome writer\'s block instantly. It\'s like having a writing assistant that\'s always available and completely free.',
+  },
+  {
+    id: 'testimonial-4',
+    name: 'David Kim',
+    role: 'Student',
+    text: 'As a student on a budget, these free tools are amazing. The word counter and PDF tools help me with assignments every day. Thank you!',
+  },
+  {
+    id: 'testimonial-5',
+    name: 'Lisa Thompson',
+    role: 'Small Business Owner',
+    text: 'I use the watermark tool to protect my product photos. It\'s professional, easy to use, and saves me from expensive software subscriptions.',
+  },
+  {
+    id: 'testimonial-6',
+    name: 'Alex Martinez',
+    role: 'Freelance Designer',
+    text: 'The privacy-first approach is what sold me. Knowing my client files never leave my browser gives me peace of mind. Plus, it\'s lightning fast!',
+  },
+];
