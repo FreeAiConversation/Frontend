@@ -4,11 +4,9 @@ import { Tool } from '@/lib/constants';
 import { 
   FileText, 
   File, 
-  Image, 
-  Eye, 
   Box, 
   Lock, 
-  Pencil, 
+  PenTool, 
   Code, 
   Palette, 
   AlignLeft,
@@ -22,7 +20,7 @@ const toolIcons: Record<string, React.ReactNode> = {
   'image-optimizer': <Zap className="w-[18px] h-[18px]" />,
   'watermark': <Box className="w-[18px] h-[18px]" />,
   'password-generator': <Lock className="w-[18px] h-[18px]" />,
-  'rewrite-ai': <Pencil className="w-[18px] h-[18px]" />,
+  'rewrite-ai': <PenTool className="w-[18px] h-[18px]" />,
   'code-formatter': <Code className="w-[18px] h-[18px]" />,
   'color-picker': <Palette className="w-[18px] h-[18px]" />,
   'paragraph-generator': <AlignLeft className="w-[18px] h-[18px]" />,
@@ -49,7 +47,7 @@ export function ToolItem({ tool, index }: ToolItemProps) {
       onClick={handleClick}
       className={`relative flex items-center gap-3.5 p-3.5 border border-border rounded-md transition-all duration-200 animate-fade-in-up group ${
         isUpcoming
-          ? 'opacity-60 cursor-not-allowed'
+          ? 'opacity-50 cursor-not-allowed'
           : 'cursor-pointer hover:border-border-hover hover:bg-bg-elevated'
       }`}
       style={{ animationDelay }}
