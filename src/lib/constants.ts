@@ -5,6 +5,7 @@ export interface Tool {
   icon: string;
   href: string;
   searchTerms: string;
+  upcoming?: boolean;
 }
 
 export interface Category {
@@ -66,6 +67,30 @@ export const categories: Category[] = [
 ];
 
 export const tools: Tool[] = [
+    {
+    id: 'image-converter',
+    name: 'Image Converter',
+    description: 'Convert between PNG, JPG, WEBP & BMP',
+    icon: '🖼️',
+    href: '/tools/image-converter',
+    searchTerms: 'image converter png jpg webp bmp convert',
+  },
+  {
+    id: 'image-optimizer',
+    name: 'Image Optimizer',
+    description: 'Compress images with quality control',
+    icon: '⚡',
+    href: '/tools/image-optimizer',
+    searchTerms: 'image optimizer compress reduce size quality',
+  },
+  {
+    id: 'color-picker',
+    name: 'Color Picker',
+    description: 'Pick colors, get HEX/RGB values',
+    icon: '🎯',
+    href: '/tools/color-picker',
+    searchTerms: 'color picker hex rgb hsl extract image',
+  },
   {
     id: 'word-counter',
     name: 'Word Counter',
@@ -83,22 +108,6 @@ export const tools: Tool[] = [
     searchTerms: 'pdf merge split compress convert',
   },
   {
-    id: 'image-converter',
-    name: 'Image Converter',
-    description: 'Convert between PNG, JPG, WEBP & BMP',
-    icon: '🖼️',
-    href: '/tools/image-converter',
-    searchTerms: 'image converter png jpg webp bmp convert',
-  },
-  {
-    id: 'image-optimizer',
-    name: 'Image Optimizer',
-    description: 'Compress images with quality control',
-    icon: '⚡',
-    href: '/tools/image-optimizer',
-    searchTerms: 'image optimizer compress reduce size quality',
-  },
-  {
     id: 'watermark',
     name: 'Watermark Generator',
     description: 'Add text watermarks with full control',
@@ -114,15 +123,7 @@ export const tools: Tool[] = [
     href: '/tools/password-generator',
     searchTerms: 'password generator secure random',
   },
-  {
-    id: 'redesign-tool',
-    name: 'Redesign Tool',
-    description: 'AI-powered UI/UX redesign suggestions',
-    icon: '🎨',
-    href: '/tools/redesign-tool',
-    searchTerms: 'redesign ui ux design ai analyze screenshot',
-  },
-  {
+    {
     id: 'code-formatter',
     name: 'Code Formatter',
     description: 'Format JS, JSON, HTML, CSS & SQL code',
@@ -131,12 +132,13 @@ export const tools: Tool[] = [
     searchTerms: 'code formatter beautify json javascript html css sql',
   },
   {
-    id: 'color-picker',
-    name: 'Color Picker',
-    description: 'Pick colors, get HEX/RGB values',
-    icon: '🎯',
-    href: '/tools/color-picker',
-    searchTerms: 'color picker hex rgb hsl extract image',
+    id: 'rewrite-ai',
+    name: 'Rewrite AI Paragraph',
+    description: 'AI-powered paragraph rewriting and enhancement',
+    icon: '✨',
+    href: '/tools/rewrite-ai',
+    searchTerms: 'rewrite ai paragraph enhance improve text',
+    upcoming: true,
   },
   {
     id: 'paragraph-generator',
@@ -145,7 +147,9 @@ export const tools: Tool[] = [
     icon: '✍️',
     href: '/tools/paragraph-generator',
     searchTerms: 'paragraph generator ai write content text',
+    upcoming: true,
   },
+    
 ];
 
 export const stats = [

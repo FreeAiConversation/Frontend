@@ -3,23 +3,23 @@ import { tools } from '@/lib/constants';
 import { 
   FileText, 
   File, 
-  Image, 
-  Eye, 
-  Box, 
   Lock, 
   Pencil, 
   Code, 
   Palette, 
   AlignLeft,
+  RefreshCw,
+  Zap,
+  Stamp,
 } from 'lucide-react';
 
 // Map tool IDs to their Lucide icons
 const toolIcons: Record<string, React.ReactNode> = {
   'word-counter': <FileText className="w-4 h-4" />,
   'pdf-tools': <File className="w-4 h-4" />,
-  'image-converter': <Image className="w-4 h-4" />,
-  'image-optimizer': <Eye className="w-4 h-4" />,
-  'watermark': <Box className="w-4 h-4" />,
+  'image-converter': <RefreshCw className="w-4 h-4" />,
+  'image-optimizer': <Zap className="w-4 h-4" />,
+  'watermark': <Stamp className="w-4 h-4" />,
   'password-generator': <Lock className="w-4 h-4" />,
   'redesign-tool': <Pencil className="w-4 h-4" />,
   'code-formatter': <Code className="w-4 h-4" />,
