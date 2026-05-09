@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Sparkles, Menu } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 
@@ -17,17 +17,16 @@ export function Header() {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-8 bg-black/85 backdrop-blur-[24px] border-b border-border z-[1000]">
-      <Link href="/" className="flex items-center gap-3">
-        <Sparkles className="w-7 h-7 text-white" />
-        <span className='text-xl'> 
-
-        Free AI Converter
+    <header className="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-4 sm:px-6 md:px-8 bg-black/85 backdrop-blur-[24px] border-b border-border z-[1000]">
+      <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <Sparkles className="w-6 h-6 sm:w-7 sm:h-7 text-white flex-shrink-0" />
+        <span className="text-base sm:text-lg md:text-xl truncate">
+          Free AI Converter
         </span>
       </Link>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex items-center gap-1">
+      <nav className="hidden md:flex items-center gap-1 flex-shrink-0">
         {navItems.map((item) => (
           <Link
             key={item.label}
@@ -46,7 +45,7 @@ export function Header() {
 
       {/* Mobile Menu Toggle */}
       <button
-        className="md:hidden flex flex-col gap-[5px] p-1"
+        className="md:hidden flex flex-col gap-[5px] p-1 flex-shrink-0"
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         aria-label="Menu"
       >

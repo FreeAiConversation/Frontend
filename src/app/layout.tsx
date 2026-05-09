@@ -39,6 +39,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.ico', type: 'image/x-icon' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/favicon.ico',
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -48,7 +56,7 @@ export const metadata: Metadata = {
     description: "Free AI-powered tools for PDF, images, code, writing & more. No login required. Unlimited usage.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/banner/free-ai-conversion.webp",
         width: 1200,
         height: 630,
         alt: "Free AI Conversion",
@@ -59,7 +67,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Free AI Conversion — Premium Tools",
     description: "Free AI-powered tools for PDF, images, code, writing & more. No login required. Unlimited usage.",
-    images: ["/og-image.png"],
+    images: ["/banner/free-ai-conversion.webp"],
     creator: "@freeaiconversion",
   },
   robots: {

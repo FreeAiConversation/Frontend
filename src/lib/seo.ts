@@ -13,7 +13,7 @@ export interface SEOProps {
 
 const SITE_NAME = 'Free AI Conversion';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/banner/free-ai-conversion.webp`;
 
 export function generateMetadata({
   title,
