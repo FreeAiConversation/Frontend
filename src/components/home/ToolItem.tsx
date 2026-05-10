@@ -10,6 +10,15 @@ import {
   Code, 
   Palette, 
   AlignLeft,
+  Scissors,
+  Minimize2,
+  FileType,
+  BookOpen,
+  LockOpen,
+  Shield,
+  Droplet,
+  Target,
+  Calendar,
 } from 'lucide-react';
 
 // Map tool IDs to their Lucide icons
@@ -24,6 +33,17 @@ const toolIcons: Record<string, React.ReactNode> = {
   'code-formatter': <Code className="w-[18px] h-[18px]" />,
   'color-picker': <Palette className="w-[18px] h-[18px]" />,
   'paragraph-generator': <AlignLeft className="w-[18px] h-[18px]" />,
+  'pdf-merge': <File className="w-[18px] h-[18px]" />,
+  'pdf-split': <Scissors className="w-[18px] h-[18px]" />,
+  'compress-pdf': <Minimize2 className="w-[18px] h-[18px]" />,
+  'pdf-to-word': <FileType className="w-[18px] h-[18px]" />,
+  'word-to-pdf': <FileText className="w-[18px] h-[18px]" />,
+  'epub-to-pdf': <BookOpen className="w-[18px] h-[18px]" />,
+  'unlock-pdf': <LockOpen className="w-[18px] h-[18px]" />,
+  'protect-pdf': <Shield className="w-[18px] h-[18px]" />,
+  'watermark-pdf': <Droplet className="w-[18px] h-[18px]" />,
+  'picker-wheel': <Target className="w-[18px] h-[18px]" />,
+  'age-calculator': <Calendar className="w-[18px] h-[18px]" />,
 };
 
 interface ToolItemProps {
