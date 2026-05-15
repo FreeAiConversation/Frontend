@@ -80,8 +80,16 @@ export const tools: Tool[] = [
     name: 'Image Optimizer',
     description: 'Compress images with quality control',
     icon: '⚡',
-    href: '/tools/image-optimizer',
+    href: '/tools/image-converter?tool=optimize',
     searchTerms: 'image optimizer compress reduce size quality',
+  },
+  {
+    id: 'image-resizer',
+    name: 'Image Resizer',
+    description: 'Resize images with presets & aspect lock',
+    icon: '📐',
+    href: '/tools/image-converter?tool=resize',
+    searchTerms: 'image resizer resize dimensions scale crop preset',
   },
   {
     id: 'color-picker',

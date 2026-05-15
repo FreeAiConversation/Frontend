@@ -33,7 +33,8 @@ export function Header() {
     ],
     'Image Tools': [
       { name: 'Image Converter', href: '/tools/image-converter' },
-      { name: 'Image Optimizer', href: '/tools/image-optimizer' },
+      { name: 'Image Optimizer', href: '/tools/image-converter?tool=optimize' },
+      { name: 'Image Resizer', href: '/tools/image-converter?tool=resize' },
       { name: 'Watermark Generator', href: '/tools/watermark' },
     ],
     'Code & Writing': [
@@ -50,7 +51,8 @@ export function Header() {
 
   const imageMenu: MenuItem[] = [
     { name: 'Image Converter', href: '/tools/image-converter' },
-    { name: 'Image Optimizer', href: '/tools/image-optimizer' },
+    { name: 'Image Optimizer', href: '/tools/image-converter?tool=optimize' },
+    { name: 'Image Resizer', href: '/tools/image-converter?tool=resize' },
     { name: 'Watermark Generator', href: '/tools/watermark' },
   ];
 

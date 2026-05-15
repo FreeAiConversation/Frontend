@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { tools } from '@/lib/constants';
 import { 
@@ -20,6 +22,7 @@ import {
   Droplet,
   Target,
   Calendar,
+  Scaling,
 } from 'lucide-react';
 
 // Map tool IDs to their Lucide icons
@@ -28,6 +31,7 @@ const toolIcons: Record<string, React.ReactNode> = {
   'pdf-tools': <File className="w-4 h-4" />,
   'image-converter': <RefreshCw className="w-4 h-4" />,
   'image-optimizer': <Zap className="w-4 h-4" />,
+  'image-resizer': <Scaling className="w-4 h-4" />,
   'watermark': <Stamp className="w-4 h-4" />,
   'password-generator': <Lock className="w-4 h-4" />,
   'rewrite-ai': <PenTool className="w-4 h-4" />,

@@ -25,6 +25,7 @@ import {
   Droplet,
   Target,
   Calendar,
+  Scaling,
 } from 'lucide-react';
 
 // Map tool IDs to their Lucide icons
@@ -33,6 +34,7 @@ const toolIcons: Record<string, React.ReactNode> = {
   'pdf-tools': <File className="w-6 h-6" />,
   'image-converter': <RefreshCw className="w-6 h-6" />,
   'image-optimizer': <Zap className="w-6 h-6" />,
+  'image-resizer': <Scaling className="w-6 h-6" />,
   'watermark': <Stamp className="w-6 h-6" />,
   'password-generator': <Lock className="w-6 h-6" />,
   'rewrite-ai': <PenTool className="w-6 h-6" />,

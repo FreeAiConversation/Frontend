@@ -1,11 +1,11 @@
 import Link from 'next/link';
-import { File, Image, Code, PenTool, Settings } from 'lucide-react';
+import { File, ImageIcon, Code, PenTool, Settings } from 'lucide-react';
 import { Category } from '@/lib/constants';
 
 // Map category IDs to Lucide icons
 const categoryIcons: Record<string, React.ReactNode> = {
   'pdf': <File className="w-5 h-5" />,
-  'image': <Image className="w-5 h-5" />,
+  'image': <ImageIcon className="w-5 h-5" />,
   'code': <Code className="w-5 h-5" />,
   'write': <PenTool className="w-5 h-5" />,
   'utility': <Settings className="w-5 h-5" />,
