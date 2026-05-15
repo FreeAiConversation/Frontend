@@ -2,9 +2,11 @@ import { Metadata } from 'next';
 import { generateMetadata as genMeta, generateToolSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { ImageOptimizerPage } from '@/components/tools/image/pages/ImageOptimizerPage';
+import { ImageConverterHowItWorks } from '@/components/tools/image/ImageConverterHowItWorks';
 import { ImageConverterFeatures } from '@/components/tools/image/ImageConverterFeatures';
 import { ImageConverterWhoIsThisFor } from '@/components/tools/image/ImageConverterWhoIsThisFor';
 import { ImageConverterFAQ } from '@/components/tools/image/ImageConverterFAQ';
+import { SimilarTools } from '@/components/tools/SimilarTools';
 import { CTASection } from '@/components/home/CTASection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
@@ -83,6 +85,17 @@ export default function Page() {
       <StructuredData data={[toolSchema, breadcrumbSchema, faqSchema]} />
       <main className="min-h-screen">
         <ImageOptimizerPage />
+        <SimilarTools currentToolId="image-optimizer" />
+        <ImageConverterHowItWorks
+          title="How to Optimize Images"
+          subtitle="Reduce file size while maintaining quality — powered by Web Workers"
+          steps={[
+            { icon: 'upload', title: 'Upload Your Image', description: 'Select any image file up to 20MB. The optimizer works with all common formats.' },
+            { icon: 'target', title: 'Set Target Size', description: 'Choose a target file size (0.5–5MB), max dimension, and output format. WEBP is recommended for best compression.' },
+            { icon: 'zap', title: 'Compress with Web Worker', description: 'Processing runs in a background thread so your browser stays responsive. Watch the progress bar in real-time.' },
+            { icon: 'download', title: 'Download Optimized File', description: 'See exactly how much space you saved. Download the optimized image with one click.' },
+          ]}
+        />
         <ImageConverterFeatures />
         <ImageConverterWhoIsThisFor />
         <ImageConverterFAQ />

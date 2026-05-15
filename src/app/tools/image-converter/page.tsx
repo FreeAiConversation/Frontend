@@ -6,6 +6,7 @@ import { ImageConverterHowItWorks } from '@/components/tools/image/ImageConverte
 import { ImageConverterFeatures } from '@/components/tools/image/ImageConverterFeatures';
 import { ImageConverterWhoIsThisFor } from '@/components/tools/image/ImageConverterWhoIsThisFor';
 import { ImageConverterFAQ } from '@/components/tools/image/ImageConverterFAQ';
+import { SimilarTools } from '@/components/tools/SimilarTools';
 import { CTASection } from '@/components/home/CTASection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
@@ -83,6 +84,7 @@ export default function Page() {
       <StructuredData data={[toolSchema, breadcrumbSchema, faqSchema]} />
       <main className="min-h-screen">
         <ImageConverterPage />
+        <SimilarTools currentToolId="image-converter" />
         <ImageConverterHowItWorks />
         <ImageConverterFeatures />
         <ImageConverterWhoIsThisFor />

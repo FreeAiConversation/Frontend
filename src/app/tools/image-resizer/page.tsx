@@ -2,9 +2,11 @@ import { Metadata } from 'next';
 import { generateMetadata as genMeta, generateToolSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { StructuredData } from '@/components/seo/StructuredData';
 import { ImageResizerPage } from '@/components/tools/image/pages/ImageResizerPage';
+import { ImageConverterHowItWorks } from '@/components/tools/image/ImageConverterHowItWorks';
 import { ImageConverterFeatures } from '@/components/tools/image/ImageConverterFeatures';
 import { ImageConverterWhoIsThisFor } from '@/components/tools/image/ImageConverterWhoIsThisFor';
 import { ImageConverterFAQ } from '@/components/tools/image/ImageConverterFAQ';
+import { SimilarTools } from '@/components/tools/SimilarTools';
 import { CTASection } from '@/components/home/CTASection';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
@@ -83,6 +85,17 @@ export default function Page() {
       <StructuredData data={[toolSchema, breadcrumbSchema, faqSchema]} />
       <main className="min-h-screen">
         <ImageResizerPage />
+        <SimilarTools currentToolId="image-resizer" />
+        <ImageConverterHowItWorks
+          title="How to Resize Images"
+          subtitle="Change image dimensions with precision — aspect ratio lock, presets, and percentage scaling"
+          steps={[
+            { icon: 'upload', title: 'Upload Your Image', description: 'Drop any image file. Original dimensions are detected automatically.' },
+            { icon: 'maximize', title: 'Choose Resize Mode', description: 'Pick from exact dimensions with aspect ratio lock, percentage scaling (1–200%), or common presets like 1920×1080.' },
+            { icon: 'eye', title: 'Select Format & Quality', description: 'Choose PNG, JPG, or WEBP output. Adjust quality for lossy formats to control the final file size.' },
+            { icon: 'download', title: 'Preview & Download', description: 'See the new dimensions and file size comparison. Download the resized image when ready.' },
+          ]}
+        />
         <ImageConverterFeatures />
         <ImageConverterWhoIsThisFor />
         <ImageConverterFAQ />
