@@ -34,6 +34,12 @@ const relatedToolsMap: Record<string, SimilarTool[]> = {
     { id: 'image-converter', name: 'Image Converter', description: 'Change format after resizing', href: '/tools/image-converter' },
     { id: 'watermark', name: 'Watermark Generator', description: 'Add watermarks to resized images', href: '/tools/watermark' },
   ],
+  // Utility tools
+  'password-generator': [
+    { id: 'color-picker', name: 'Color Picker', description: 'Pick colors, get HEX/RGB/HSL values', href: '/tools/color-picker' },
+    { id: 'word-counter', name: 'Word Counter', description: 'Count words, characters & reading time', href: '/tools/word-counter' },
+    { id: 'code-formatter', name: 'Code Formatter', description: 'Format JS, JSON, HTML, CSS & SQL', href: '/tools/code-formatter' },
+  ],
   // PDF tools
   'pdf-merge': [
     { id: 'pdf-split', name: 'Split PDF', description: 'Extract specific pages from PDFs', href: '/tools/pdf-split' },
