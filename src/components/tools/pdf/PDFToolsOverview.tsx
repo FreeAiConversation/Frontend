@@ -92,7 +92,7 @@ export function PDFToolsOverview() {
       <Container>
         {/* Back Link */}
         <Link
-          href="/"
+          href="/tools"
           className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
         >
           <span>←</span>

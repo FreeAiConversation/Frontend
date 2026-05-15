@@ -147,11 +147,11 @@ export function PDFMergeTool() {
       <Container>
         {/* Back Link */}
         <Link
-          href="/"
+          href="/tools/pdf-tools"
           className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
         >
           <span>←</span>
-          <span>Back to all tools</span>
+          <span>Back to PDF Tools</span>
         </Link>
 
         {/* Header */}

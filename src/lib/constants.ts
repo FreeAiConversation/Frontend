@@ -33,9 +33,9 @@ export const categories: Category[] = [
     name: 'Image Tools',
     description: 'Convert, resize, and optimize images with AI.',
     icon: '🖼️',
-    href: '/tools/image-converter',
+    href: '/tools/image-tools',
     toolCount: 4,
-    featured: 'Optimizer',
+    featured: 'Converter',
   },
   {
     id: 'code',
@@ -60,8 +60,8 @@ export const categories: Category[] = [
     name: 'Utilities',
     description: 'Passwords, color pickers, and everyday tools.',
     icon: '⚙️',
-    href: '/tools/password-generator',
-    toolCount: 3,
+    href: '/tools/utilities',
+    toolCount: 6,
     featured: 'Passwords',
   },
 ];
@@ -80,7 +80,7 @@ export const tools: Tool[] = [
     name: 'Image Optimizer',
     description: 'Compress images with quality control',
     icon: '⚡',
-    href: '/tools/image-converter?tool=optimize',
+    href: '/tools/image-optimizer',
     searchTerms: 'image optimizer compress reduce size quality',
   },
   {
@@ -88,7 +88,7 @@ export const tools: Tool[] = [
     name: 'Image Resizer',
     description: 'Resize images with presets & aspect lock',
     icon: '📐',
-    href: '/tools/image-converter?tool=resize',
+    href: '/tools/image-resizer',
     searchTerms: 'image resizer resize dimensions scale crop preset',
   },
   {
