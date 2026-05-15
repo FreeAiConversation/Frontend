@@ -1,13 +1,13 @@
 import { Metadata } from 'next';
 import { generateMetadata as genMeta, generateToolSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { StructuredData } from '@/components/seo/StructuredData';
-import { UtilitiesOverview } from '@/components/tools/utilities/UtilitiesOverview';
+import { UtilitiesOverview } from '@/components/tools/utilities/_landing/UtilitiesOverview';
 
 import { CTASection } from '@/components/home/CTASection';
-import { UtilitiesHowItWorks } from '@/components/tools/utilities/UtilitiesHowItWorks';
-import { UtilitiesFeatures } from '@/components/tools/utilities/UtilitiesFeatures';
-import { UtilitiesWhoIsThisFor } from '@/components/tools/utilities/UtilitiesWhoIsThisFor';
-import { UtilitiesFAQ } from '@/components/tools/utilities/UtilitiesFAQ';
+import { UtilitiesHowItWorks } from '@/components/tools/utilities/_landing/UtilitiesHowItWorks';
+import { UtilitiesFeatures } from '@/components/tools/utilities/_landing/UtilitiesFeatures';
+import { UtilitiesWhoIsThisFor } from '@/components/tools/utilities/_landing/UtilitiesWhoIsThisFor';
+import { UtilitiesFAQ } from '@/components/tools/utilities/_landing/UtilitiesFAQ';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
 

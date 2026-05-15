@@ -36,9 +36,14 @@ const relatedToolsMap: Record<string, SimilarTool[]> = {
   ],
   // Utility tools
   'password-generator': [
-    { id: 'color-picker', name: 'Color Picker', description: 'Pick colors, get HEX/RGB/HSL values', href: '/tools/color-picker' },
     { id: 'word-counter', name: 'Word Counter', description: 'Count words, characters & reading time', href: '/tools/word-counter' },
+    { id: 'color-picker', name: 'Color Picker', description: 'Pick colors, get HEX/RGB/HSL values', href: '/tools/color-picker' },
     { id: 'code-formatter', name: 'Code Formatter', description: 'Format JS, JSON, HTML, CSS & SQL', href: '/tools/code-formatter' },
+  ],
+  'word-counter': [
+    { id: 'password-generator', name: 'Password Generator', description: 'Generate secure passwords instantly', href: '/tools/password-generator' },
+    { id: 'code-formatter', name: 'Code Formatter', description: 'Format JS, JSON, HTML, CSS & SQL', href: '/tools/code-formatter' },
+    { id: 'pdf-merge', name: 'Merge PDFs', description: 'Combine multiple PDF files into one', href: '/tools/pdf-merge' },
   ],
   // PDF tools
   'pdf-merge': [

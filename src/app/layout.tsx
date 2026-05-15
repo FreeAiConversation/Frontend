@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { Toaster } from "sonner";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { generateWebsiteSchema, generateOrganizationSchema } from "@/lib/seo";
 
@@ -105,6 +106,7 @@ export default function RootLayout({
         <Header />
         {children}
         <Footer />
+        <Toaster theme="dark" position="bottom-right" richColors />
       </body>
     </html>
   );

@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 import { generateMetadata as genMeta, generateToolSchema, generateBreadcrumbSchema } from '@/lib/seo';
 import { StructuredData } from '@/components/seo/StructuredData';
-import { PasswordGeneratorTool } from '@/components/tools/utilities/PasswordGeneratorTool';
+import { PasswordGeneratorTool } from '@/components/tools/utilities/password-generator/PasswordGeneratorTool';
 import { SimilarTools } from '@/components/tools/SimilarTools';
 import { CTASection } from '@/components/home/CTASection';
-import { PasswordGeneratorHowItWorks } from '@/components/tools/utilities/PasswordGeneratorHowItWorks';
-import { PasswordGeneratorFAQ } from '@/components/tools/utilities/PasswordGeneratorFAQ';
+import { PasswordGeneratorHowItWorks } from '@/components/tools/utilities/password-generator/PasswordGeneratorHowItWorks';
+import { PasswordGeneratorFAQ } from '@/components/tools/utilities/password-generator/PasswordGeneratorFAQ';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://freeaiconversion.com';
 
