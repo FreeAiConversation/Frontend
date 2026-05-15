@@ -117,8 +117,13 @@ export function SimilarTools({ currentToolId }: SimilarToolsProps) {
                   {tool.description}
                 </div>
               </div>
-              {!tool.upcoming && (
-                <ArrowRight className="w-4 h-4 text-text-dim opacity-0 group-hover:opacity-100 transition-opacity" />
+              {!tool.upcoming ? (
+                <span className="text-[12px] font-semibold text-white flex items-center gap-1 mt-auto">
+                  Try now
+                  <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </span>
+              ) : (
+                <span className="text-[11px] text-text-dim mt-auto">Coming Soon</span>
               )}
             </Link>
           ))}

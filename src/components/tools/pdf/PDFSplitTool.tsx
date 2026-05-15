@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Upload, FileText, X, Download, Check, Scissors, Lock } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 interface SplitOption {
   type: 'all' | 'range' | 'custom';
@@ -215,13 +216,11 @@ export function PDFSplitTool() {
     <section className="py-16 md:py-20 relative">
       <Container>
         {/* Back Link */}
-        <Link
-          href="/tools/pdf-tools"
-          className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
-        >
-          <span>←</span>
-          <span>Back to PDF Tools</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'PDF Tools', href: '/tools/pdf-tools' },
+          { label: 'Split PDF', href: '/tools/pdf-split' },
+        ]} />
 
         {/* Header */}
         <div className="text-center mb-12">

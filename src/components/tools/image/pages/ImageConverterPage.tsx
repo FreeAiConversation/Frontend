@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Container } from '@/components/ui/Container';
 import { RefreshCw, X, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 import { useImageFile } from '../hooks/useImageFile';
 import { UploadZone } from '../shared/UploadZone';
 import { ImagePreviewCard } from '../shared/ImagePreviewCard';
@@ -17,9 +18,11 @@ export function ImageConverterPage() {
   return (
     <section className="py-16 md:py-20 relative">
       <Container>
-        <Link href="/tools/image-tools" className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8">
-          <span>←</span><span>Back to Image Tools</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'Image Tools', href: '/tools/image-tools' },
+          { label: 'Image Converter', href: '/tools/image-converter' },
+        ]} />
 
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[11px] font-bold tracking-wider uppercase mb-4">

@@ -1,8 +1,9 @@
 'use client';
 
 import { Container } from '@/components/ui/Container';
-import { FileText, Scissors, Minimize2, ArrowRight, Lock, Zap, Infinity, DollarSign, FileType, BookOpen, LockOpen, Shield, Droplet } from 'lucide-react';
-import Link from 'next/link';
+import { ToolCard } from '@/components/ui/ToolCard';
+import { FileText, Scissors, Minimize2, Lock, Zap, Infinity, DollarSign, FileType, BookOpen, LockOpen, Shield, Droplet } from 'lucide-react';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 export function PDFToolsOverview() {
   const pdfTools = [
@@ -29,7 +30,7 @@ export function PDFToolsOverview() {
       description: 'Reduce PDF file size while maintaining quality. Advanced compression with custom options.',
       href: '#',
       features: ['Reduce size', 'Keep quality', 'Custom settings'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'pdf-to-word',
@@ -38,7 +39,7 @@ export function PDFToolsOverview() {
       description: 'Convert PDF documents to editable Word files. Preserve formatting and layout.',
       href: '#',
       features: ['Editable DOCX', 'Keep formatting', 'Fast conversion'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'word-to-pdf',
@@ -47,7 +48,7 @@ export function PDFToolsOverview() {
       description: 'Convert Word documents to PDF format. Maintain document structure and styling.',
       href: '#',
       features: ['DOCX to PDF', 'Keep layout', 'High quality'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'epub-to-pdf',
@@ -56,7 +57,7 @@ export function PDFToolsOverview() {
       description: 'Convert EPUB ebooks to PDF format. Perfect for reading on any device.',
       href: '#',
       features: ['Ebook conversion', 'Preserve chapters', 'Universal format'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'unlock-pdf',
@@ -65,7 +66,7 @@ export function PDFToolsOverview() {
       description: 'Remove password protection from PDF files. Unlock restricted documents.',
       href: '#',
       features: ['Remove password', 'Unlock editing', 'Quick process'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'protect-pdf',
@@ -74,30 +75,26 @@ export function PDFToolsOverview() {
       description: 'Add password protection to PDF files. Secure your sensitive documents.',
       href: '#',
       features: ['Add password', 'Restrict access', 'Secure files'],
-      comingSoon: true,
+      upcoming: true,
     },
     {
       id: 'watermark',
-      name: 'Watermark Generator',
+      name: 'Watermark PDF',
       icon: Droplet,
       description: 'Add text or image watermarks to PDF files. Protect and brand your documents.',
       href: '#',
       features: ['Text watermark', 'Image watermark', 'Custom position'],
-      comingSoon: true,
+      upcoming: true,
     },
   ];
 
   return (
     <section className="py-16 md:py-20 relative">
       <Container>
-        {/* Back Link */}
-        <Link
-          href="/tools"
-          className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
-        >
-          <span>←</span>
-          <span>Back to all tools</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'PDF Tools', href: '/tools/pdf-tools' },
+        ]} />
 
         {/* Header */}
         <div className="text-center mb-16">
@@ -114,56 +111,19 @@ export function PDFToolsOverview() {
         </div>
 
         {/* Tools Grid */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {pdfTools.map((tool) => {
-            const Icon = tool.icon;
-            return (
-              <Link
-                key={tool.id}
-                href={tool.comingSoon ? '#' : tool.href}
-                onClick={(e) => tool.comingSoon && e.preventDefault()}
-                className={`group relative border border-white/10 rounded-lg p-8 bg-white/[0.02] transition-all ${
-                  tool.comingSoon
-                    ? 'opacity-60 cursor-not-allowed'
-                    : 'hover:border-white/30 hover:bg-white/[0.04]'
-                }`}
-              >
-                {tool.comingSoon && (
-                  <div className="absolute top-4 right-4 px-2 py-1 bg-white/10 border border-white/20 rounded text-[10px] font-bold tracking-wide">
-                    COMING SOON
-                  </div>
-                )}
-
-                {/* Icon */}
-                <div className="w-14 h-14 mb-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors">
-                  <Icon className="w-7 h-7 text-white" />
-                </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-bold mb-3 flex items-center gap-2">
-                  {tool.name}
-                  {!tool.comingSoon && (
-                    <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-                  )}
-                </h3>
-                <p className="text-[14px] text-text-muted mb-4 leading-relaxed">
-                  {tool.description}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap gap-2">
-                  {tool.features.map((feature, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 bg-white/5 border border-white/10 rounded text-[11px] text-text-dim"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            );
-          })}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {pdfTools.map((tool, index) => (
+            <ToolCard
+              key={tool.id}
+              name={tool.name}
+              description={tool.description}
+              href={tool.href}
+              icon={tool.icon}
+              features={tool.features}
+              upcoming={tool.upcoming}
+              index={index}
+            />
+          ))}
         </div>
 
         {/* Features Section */}

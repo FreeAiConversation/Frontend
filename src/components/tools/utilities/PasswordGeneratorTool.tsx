@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Lock, Copy, RefreshCw, Check, Shield, Clock, Hash } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 interface PasswordOptions {
   length: number;
@@ -135,14 +136,11 @@ export function PasswordGeneratorTool() {
   return (
     <section className="py-16 md:py-20 relative">
       <Container>
-        {/* Back Link */}
-        <Link
-          href="/tools/utilities"
-          className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
-        >
-          <span>←</span>
-          <span>Back to Utilities</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'Utilities', href: '/tools/utilities' },
+          { label: 'Password Generator', href: '/tools/password-generator' },
+        ]} />
 
         {/* Header */}
         <div className="text-center mb-12">

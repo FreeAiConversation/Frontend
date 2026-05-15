@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Upload, FileText, X, Download, Check, Lock, ArrowDown } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 interface PDFFile {
   id: string;
@@ -146,13 +147,11 @@ export function PDFMergeTool() {
     <section className="py-16 md:py-20 relative">
       <Container>
         {/* Back Link */}
-        <Link
-          href="/tools/pdf-tools"
-          className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
-        >
-          <span>←</span>
-          <span>Back to PDF Tools</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'PDF Tools', href: '/tools/pdf-tools' },
+          { label: 'Merge PDFs', href: '/tools/pdf-merge' },
+        ]} />
 
         {/* Header */}
         <div className="text-center mb-12">

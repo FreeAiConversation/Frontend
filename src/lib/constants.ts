@@ -108,14 +108,6 @@ export const tools: Tool[] = [
     searchTerms: 'word counter count characters sentences',
   },
   {
-    id: 'pdf-tools',
-    name: 'PDF Tools',
-    description: 'Merge, split & compress PDFs',
-    icon: '📄',
-    href: '/tools/pdf-tools',
-    searchTerms: 'pdf merge split compress convert',
-  },
-  {
     id: 'watermark',
     name: 'Watermark Generator',
     description: 'Add text watermarks with full control',

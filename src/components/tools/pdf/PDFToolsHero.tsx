@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Container } from '@/components/ui/Container';
 import { Upload, FileText, Scissors, Minimize2, Download, X, Check } from 'lucide-react';
 import Link from 'next/link';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 type PDFTool = 'merge' | 'split' | 'compress';
 type CompressionLevel = 'low' | 'medium' | 'high' | 'custom';
@@ -253,14 +254,10 @@ export function PDFToolsHero() {
   return (
     <section className="py-16 md:py-20 relative">
       <Container>
-        {/* Back Link */}
-        <Link
-          href="/tools"
-          className="inline-flex items-center gap-2 text-[13px] text-text-muted hover:text-white transition-colors mb-8"
-        >
-          <span>←</span>
-          <span>Back to all tools</span>
-        </Link>
+        <Breadcrumb items={[
+          { label: 'Tools', href: '/tools' },
+          { label: 'PDF Tools', href: '/tools/pdf-tools' },
+        ]} />
 
         {/* Header */}
         <div className="text-center mb-12">
